@@ -13,7 +13,7 @@ const HomePage = () => {
     event.preventDefault();
     console.log('Username:', username);
     console.log('Gametag:', gametag);
-    let url = username +  gametag;
+    let url = username + "_"  + gametag;
     router.push(`/${url}`);
   };
   return (

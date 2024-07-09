@@ -7,8 +7,11 @@ import { useEffect, useState } from 'react';
 const SummonerStats = ({params}) => {
   const fullname = params.summonername
 
-  let sonBesHarf = fullname.slice(-5); 
-  let geriKalan = fullname.slice(0, -5);
+  let parts = fullname.split('_');
+ 
+
+  let tagid = parts[1];
+  let geriKalan = parts[0];
 
   const [name , setname] = useState(null);
   const [tag, settag] = useState(null);
@@ -22,9 +25,9 @@ const SummonerStats = ({params}) => {
   useEffect(() => {
     setLoading(true);
     // fetchdata fonksiyonunu tanımlayın ve sonBesHarf ve geriKalan değerlerini parametre olarak geçirin
-    const fetchdata = async (sonBesHarf, geriKalan) => {
+    const fetchdata = async (tagid, geriKalan) => {
       try {
-        const response = await axios.get(`https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${geriKalan}/${sonBesHarf}?api_key=RGAPI-e786f441-6414-460b-a417-aa4534974dfa`);
+        const response = await axios.get(`https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${geriKalan}/${tagid}?api_key=RGAPI-e786f441-6414-460b-a417-aa4534974dfa`);
         
         setResponseData(response.data);
 
@@ -46,11 +49,11 @@ const SummonerStats = ({params}) => {
     };
 
     // settag ve setname'i kullanarak state'i güncelleyin
-    settag(sonBesHarf);
+    settag(tagid);
     setname(geriKalan);
 
     // fetchdata fonksiyonunu çağır, sonBesHarf ve geriKalan değerlerini geçirin
-    fetchdata(sonBesHarf, geriKalan);
+    fetchdata(tagid, geriKalan);
 
   }, []); // Boş dependency array, sadece bir kez çağırılmasını sağlar
 
